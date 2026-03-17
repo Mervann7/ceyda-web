@@ -406,8 +406,8 @@ html, body, #loginPage, #dashPage, #konuPage, #denemePage, #programPage {
 
 <div class="page active" id="loginPage" style="background:#0d0f14;min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:24px;">
   <div class="login-card" style="background:#141720;border:1px solid #252b3b;border-radius:24px;padding:40px 32px;width:100%;max-width:400px;box-shadow:0 40px 80px rgba(0,0,0,.6);position:relative;z-index:2;">
-    <div class="login-logo">KPSS Takip</div>
-    <div class="login-sub">Ön Lisans Çalışma Paneli</div>
+    <div class="login-logo">Ceyda</div>
+    <div class="login-sub">KPSS Çalışma Paneli</div>
     <label>Kullanıcı Adı</label>
     <input type="text" id="loginUser" placeholder="kullanıcı adınız" autocomplete="off" style="display:block;width:100%;background:#1c2130!important;background-color:#1c2130!important;color:#e8eaf0!important;-webkit-text-fill-color:#e8eaf0!important;box-shadow:0 0 0 9999px #1c2130 inset!important;border:1.5px solid #252b3b!important;border-radius:12px!important;padding:14px 16px!important;font-size:15px!important;outline:none!important;margin-bottom:20px!important;-webkit-appearance:none!important;appearance:none!important;">
     <label>Şifre</label>
@@ -419,7 +419,7 @@ html, body, #loginPage, #dashPage, #konuPage, #denemePage, #programPage {
 
 <!-- DASHBOARD -->
 
-<div class="page" id="dashPage" style="background:#0d0f14;">
+<div class="page" id="dashPage" style="background:#0d0f14;display:none;">
   <div class="dash-header">
     <h1>Hoş Geldin 👋</h1>
     <p>Ne yapmak istiyorsun?</p>
@@ -460,7 +460,7 @@ html, body, #loginPage, #dashPage, #konuPage, #denemePage, #programPage {
 
 <!-- KONU TAKİP -->
 
-<div class="page" id="konuPage">
+<div class="page" id="konuPage" style="display:none;">
   <div class="app-topbar">
     <button class="back-btn" onclick="goTo('dash')">← Geri</button>
     <div class="app-topbar-title">📚 Konu Takibi</div>
@@ -578,7 +578,7 @@ html, body, #loginPage, #dashPage, #konuPage, #denemePage, #programPage {
 
 <!-- DENEME ANALİZ -->
 
-<div class="page" id="denemePage">
+<div class="page" id="denemePage" style="display:none;">
   <div class="app-topbar">
     <button class="back-btn" onclick="goTo('dash')">← Geri</button>
     <div class="app-topbar-title">📊 Deneme Analizi</div>
@@ -623,7 +623,7 @@ html, body, #loginPage, #dashPage, #konuPage, #denemePage, #programPage {
 
 <!-- AYLIK PROGRAM -->
 
-<div class="page" id="programPage">
+<div class="page" id="programPage" style="display:none;">
   <div class="app-topbar">
     <button class="back-btn" onclick="goTo('dash')">← Geri</button>
     <div class="app-topbar-title">🗓️ Aylık Program</div>
@@ -847,9 +847,26 @@ function closeWelcome() {
 
 // NAVIGATION
 function goTo(page) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p => {
+    p.classList.remove('active');
+    p.style.display = 'none';
+  });
   const map = { login: 'loginPage', dash: 'dashPage', konu: 'konuPage', deneme: 'denemePage', program: 'programPage' };
-  document.getElementById(map[page]).classList.add('active');
+  const el = document.getElementById(map[page]);
+  el.classList.add('active');
+  if (page === 'login') {
+    el.style.display = 'flex';
+    el.style.alignItems = 'center';
+    el.style.justifyContent = 'center';
+  } else if (page === 'dash') {
+    el.style.display = 'flex';
+    el.style.flexDirection = 'column';
+    el.style.alignItems = 'center';
+    el.style.justifyContent = 'center';
+  } else {
+    el.style.display = 'flex';
+    el.style.flexDirection = 'column';
+  }
   if (page === 'konu') { aktifDers = 'turkce'; refreshProgress('turkce'); }
   if (page === 'deneme') renderTable();
   if (page === 'program') renderAyPanel('mart');
